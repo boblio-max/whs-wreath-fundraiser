@@ -1,0 +1,8 @@
+node_modules/
+.next/
+out/
+data/orders.json
+.env
+.env.local
+*.log
+.DS_Store
