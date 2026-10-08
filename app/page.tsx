@@ -2,57 +2,73 @@
 
 import { useState } from 'react';
 import Navbar from '@/components/Navbar';
-import { Hero, Mission, OrderingInfo, SiteFooter } from '@/components/Sections';
-import { ProductCard, ProductModal } from '@/components/Product';
+import { Gallery, Hero, Marquee, Pickup, QuoteBand, SiteFooter, Story } from '@/components/Sections';
+import { ProductModal, ProductRow } from '@/components/Product';
+import { Arrow, Reveal } from '@/components/Reveal';
 import { PRODUCTS, type Product } from '@/lib/products';
-import { SITE } from '@/lib/site';
 
 export default function HomePage() {
   const [selected, setSelected] = useState<Product | null>(null);
   return (
-    <>
+    <div className="grain">
       <Navbar />
       <Hero />
-      <section id="shop">
+      <Marquee />
+      <section id="collection">
         <div className="wrap">
-          <p className="eyebrow">The 2026 Collection • From the Flyer, Priced as Printed</p>
-          <h2>Fresh wreaths, honest prices, local kids.</h2>
-          <p style={{ maxWidth: 640, color: 'var(--muted)' }}>
-            Everything below is the real WHS Music Boosters lineup — same items and prices as the paper flyer
-            your neighbors brought home. Handcrafted noble fir, cedar &amp; juniper with pine cones. Bows sold separately.
-          </p>
-          <div className="product-grid" style={{ marginTop: 24 }}>
-            {PRODUCTS.map((p) => (
-              <ProductCard key={p.id} product={p} onDetails={setSelected} />
+          <div className="sec-head">
+            <Reveal><p className="sec-index">01 — The 2026 collection</p></Reveal>
+            <Reveal>
+              <h2>Cut fresh. Priced honest.</h2>
+            </Reveal>
+            <Reveal>
+              <p>
+                The full WHS Music Boosters lineup — the same five offerings as the paper flyer,
+                handcrafted from noble fir, incense cedar and juniper, finished with natural pine
+                cones. Bows sold separately.
+              </p>
+            </Reveal>
+          </div>
+          <div className="plist">
+            {PRODUCTS.map((p, i) => (
+              <ProductRow key={p.id} product={p} index={i} onDetails={setSelected} />
             ))}
           </div>
-        </div>
-      </section>
-      <Mission />
-      <section aria-label="Fundraiser progress">
-        <div className="wrap">
-          <div className="card" style={{ padding: 28, textAlign: 'center' }}>
-            <p className="eyebrow">Fundraiser Progress</p>
-            <h2>We’re just getting started — and every order counts.</h2>
-            <p style={{ color: 'var(--muted)', maxWidth: 560, margin: '0 auto' }}>
-              We’ll share our goal and wreaths-sold tally here once the boosters confirm real numbers.
-              We never invent sales figures — check back after the fundraiser kicks off!
+          <Reveal>
+            <p style={{ marginTop: 26, fontSize: 14, color: 'var(--muted)', maxWidth: 640 }}>
+              Photography is representative — your wreath is assembled fresh by booster volunteers,
+              so no two are exactly alike. Real product photos arrive before launch; prices and
+              sizes above are final per the printed flyer.
             </p>
-          </div>
+          </Reveal>
         </div>
       </section>
-      <OrderingInfo />
-      <section style={{ paddingTop: 0 }}>
+      <Story />
+      <QuoteBand />
+      <Gallery />
+      <section aria-label="Fundraiser progress" style={{ paddingTop: 0 }}>
         <div className="wrap">
-          <div className="notice">
-            <strong>Before you share this link:</strong> product photos are still representative illustrations.
-            Swap in real wreath photos under <code>/public/products/</code>, install the official PayPal QR at{' '}
-            <code>/public/paypal-qr.svg</code>, and confirm the {SITE.pickupTimeNote}
-          </div>
+          <Reveal>
+            <div className="notice">
+              <strong>An honest tally, coming soon.</strong> We&apos;ll publish our fundraising goal
+              and wreaths sold here once the boosters confirm real numbers — never before.
+            </div>
+          </Reveal>
+        </div>
+      </section>
+      <Pickup />
+      <section style={{ paddingTop: 0 }}>
+        <div className="wrap" style={{ textAlign: 'center' }}>
+          <Reveal>
+            <h2 className="serif" style={{ fontSize: 'clamp(34px,5vw,60px)' }}>Your door called.<br />It wants <em style={{ color: 'var(--rust)' }}>a wreath.</em></h2>
+            <p style={{ marginTop: 22 }}>
+              <a href="#collection" className="btn btn-pine">Shop the collection <Arrow /></a>
+            </p>
+          </Reveal>
         </div>
       </section>
       <SiteFooter />
       {selected && <ProductModal product={selected} onClose={() => setSelected(null)} />}
-    </>
+    </div>
   );
 }

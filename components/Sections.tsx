@@ -1,103 +1,188 @@
 import { SITE } from '@/lib/site';
+import { Arrow, Reveal } from './Reveal';
 
 export function Hero() {
   return (
     <header className="hero" id="home">
-      <div className="wrap hero-grid">
-        <div>
-          <p className="eyebrow" style={{ color: 'var(--gold-soft)' }}>Woodinville High School • WHS Music Boosters</p>
-          <h1>Bring Home the Holidays. Help Our Orchestra &amp; Band Shine.</h1>
-          <p className="lead">
-            Celebrate the season with a beautiful fresh wreath from your Woodinville neighbors — while helping
-            our local high school musicians fund instruments, uniforms, festival travel, and scholarships.
-          </p>
-          <div className="hero-badges">
-            <span className="badge">🌲 Fresh noble fir</span>
-            <span className="badge">📍 Pickup Nov 21 @ WHS upper lot</span>
-            <span className="badge">⏰ Order by Oct 30</span>
-          </div>
-          <div className="hero-ctas">
-            <a href="#shop" className="btn btn-gold">Shop the Collection</a>
-            <a href="#mission" className="btn btn-outline">Our Fundraiser Story</a>
-          </div>
-          <p style={{ fontSize: 13, color: '#cbbf9d', marginTop: 14 }}>
-            From our neighborhood to your front door — thank you for supporting Woodinville’s young musicians.
-          </p>
+      <div className="hero-bg">
+        <img src="/photos/hero.jpg" alt="Lush fresh evergreen wreath hanging on a wooden front door" fetchPriority="high" />
+      </div>
+      <div className="hero-scrim" aria-hidden="true" />
+      <div className="wrap hero-inner">
+        <p className="hero-kicker">Woodinville High School — Music Boosters Fundraiser</p>
+        <h1>
+          Bring home <em>the holidays.</em>
+        </h1>
+        <p className="hero-sub">
+          Fresh-cut noble fir wreaths, swags and bows — handcrafted for the season,
+          sold by the families behind Woodinville High&apos;s band, orchestra and choir.
+        </p>
+        <div className="hero-ctas">
+          <a href="#collection" className="btn btn-gold">Shop the collection <Arrow /></a>
+          <a href="#story" className="btn btn-ghost">Why it matters</a>
         </div>
-        <div className="hero-art">
-          <img src="/products/wreath-24.svg" alt="Festive noble fir wreath with red bow — representative illustration" style={{ borderRadius: 12, width: '100%' }} />
-          <p style={{ fontSize: 12, color: 'var(--muted)', margin: '8px 4px 2px' }}>
-            Representative illustration — real handcrafted wreaths vary naturally. {SITE.craftNote}
-          </p>
-        </div>
+        <dl className="hero-meta">
+          <div><dt>Order by</dt><dd>October 30</dd></div>
+          <div><dt>Pickup</dt><dd>Sat, Nov 21 — WHS upper lot</dd></div>
+          <div><dt>Wreaths from</dt><dd>$25</dd></div>
+        </dl>
       </div>
     </header>
   );
 }
 
-export function Mission() {
+export function Marquee() {
+  const items = ['Fresh noble fir', 'Woodinville High School', 'Order by Oct 30', 'Pickup Nov 21', 'Bows $3', 'Supports student musicians'];
+  const row = [...items, ...items];
   return (
-    <section className="mission" id="mission">
-      <div className="wrap mission-grid">
-        <div>
-          <p className="eyebrow">Our Mission • Right Here in Woodinville</p>
-          <h2>Every Wreath Helps Make the Music Go Further.</h2>
-          <p>
-            We’re your neighbors — the <strong>WHS Music Boosters</strong>, the parent volunteers behind
-            Woodinville High School’s band, orchestra, and choir. Funds raised help with instruments,
-            equipment, uniforms, festival travel, competitions, scholarships for graduating seniors, and
-            everyday music-department needs that aren’t funded by NSD.
-          </p>
-          <p>
-            When you hang one of our fresh noble fir wreaths, you’re not just decorating — you’re keeping
-            music alive for local kids, one doorstep at a time. From all of our student musicians:{' '}
-            <em>thank you for showing up for us, Woodinville.</em>
-          </p>
+    <div className="marquee" aria-hidden="true">
+      <div className="marquee-track">
+        {[0, 1].map((half) => (
+          <span key={half}>
+            {row.map((t, i) => (
+              <span key={i}>{t} <i>✦</i></span>
+            ))}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function Story() {
+  return (
+    <section className="dark" id="story">
+      <div className="wrap">
+        <div className="sec-head">
+          <Reveal><p className="sec-index">02 — Our story</p></Reveal>
+          <Reveal><h2>Every wreath keeps the music playing.</h2></Reveal>
         </div>
-        <div className="card" style={{ padding: 24 }}>
-          <h3 style={{ marginTop: 0 }}>Where your support goes</h3>
-          <ul style={{ paddingLeft: 20, margin: '0 0 12px' }}>
-            <li>Instruments, equipment &amp; uniforms</li>
-            <li>Festival travel, competitions &amp; trips</li>
-            <li>Scholarships for graduating seniors</li>
-            <li>Music department student activities</li>
-          </ul>
-          <p style={{ fontSize: 14, color: 'var(--muted)' }}>
-            WHS Music Boosters supports the WHS Music Department and its students. We don’t claim every
-            dollar goes to one trip — it goes where our local students need it most.
-          </p>
+        <div className="story-grid">
+          <Reveal>
+            <div className="story-photo">
+              <img src="/photos/story.jpg" alt="Student violinists performing together" loading="lazy" />
+            </div>
+          </Reveal>
+          <Reveal delay={120}>
+            <div>
+              <p className="dropcap">
+                We are the WHS Music Boosters — the parents and neighbors behind Woodinville High
+                School&apos;s band, orchestra and choir. Each December we sell fresh noble fir
+                greenery so our students can afford the things school budgets don&apos;t cover:
+                instruments, uniforms, festival travel and scholarships for graduating seniors.
+              </p>
+              <p style={{ color: 'rgba(255,255,255,.8)' }}>
+                When you hang one of our wreaths, a local kid takes the stage a little more
+                confidently. That is the whole exchange — and Woodinville has honored it for years.
+              </p>
+              <ul className="uses">
+                <li>Instruments, equipment &amp; uniforms</li>
+                <li>Festival travel, competitions &amp; trips</li>
+                <li>Scholarships for graduating seniors</li>
+                <li>Day-to-day music department needs</li>
+              </ul>
+              <div className="facts">
+                <div><strong>5</strong><span>Fresh offerings</span></div>
+                <div><strong>100%</strong><span>Volunteer-run</span></div>
+                <div><strong>1</strong><span>Pickup morning</span></div>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
   );
 }
 
-export function OrderingInfo() {
+export function QuoteBand() {
   return (
-    <section id="ordering">
+    <div className="band">
+      <img className="bg" src="/photos/pine-detail.jpg" alt="" aria-hidden="true" loading="lazy" />
+      <div className="wrap band-inner">
+        <Reveal>
+          <blockquote>
+            “Noble fir, incense cedar and juniper — finished with natural pine cones, the way a
+            Northwest December should smell.”
+          </blockquote>
+          <cite>From the 2026 booster flyer</cite>
+        </Reveal>
+      </div>
+    </div>
+  );
+}
+
+export function Gallery() {
+  return (
+    <section style={{ paddingTop: 'clamp(48px,6vw,80px)' }} aria-label="Seasonal scenes">
       <div className="wrap">
-        <p className="eyebrow">Ordering Information</p>
-        <h2>Easy ordering, neighborly pickup.</h2>
-        <div className="info-grid" style={{ marginTop: 20 }}>
-          <div className="card info-card">
-            <h3>1. Shop &amp; check out</h3>
-            <p>Add wreaths to your cart and check out online — no account needed. You’ll get a request number instantly.</p>
-          </div>
-          <div className="card info-card">
-            <h3>2. Pay your way</h3>
-            <p><strong>PayPal:</strong> scan our official QR code at checkout. <strong>Cash by mail:</strong> follow the mailed instructions in your confirmation email. {SITE.paymentPolicy}</p>
-          </div>
-          <div className="card info-card">
-            <h3>3. Pick up Nov 21</h3>
-            <p><strong>{SITE.pickupLabel}.</strong> {SITE.pickupTimeNote}</p>
-            <p style={{ fontSize: 14 }}>Order deadline: <strong>{SITE.orderDeadlineLabel}</strong></p>
-          </div>
+        <Reveal><p className="micro">The season, up close</p></Reveal>
+        <div className="gstrip">
+          <Reveal>
+            <figure>
+              <img src="/photos/ornaments.jpg" alt="Holiday ornaments glowing in warm light" loading="lazy" />
+              <figcaption>Trimmed &amp; ready</figcaption>
+            </figure>
+          </Reveal>
+          <Reveal delay={100}>
+            <figure>
+              <img src="/photos/flatlay.jpg" alt="Holiday greenery and gifts arranged for the season" loading="lazy" />
+              <figcaption>From our tables to yours</figcaption>
+            </figure>
+          </Reveal>
+          <Reveal delay={200}>
+            <figure>
+              <img src="/photos/pine-detail.jpg" alt="Snow-dusted pine branches" loading="lazy" />
+              <figcaption>Fresh-cut fir</figcaption>
+            </figure>
+          </Reveal>
         </div>
-        <div className="notice" style={{ marginTop: 20 }}>
-          <strong>Questions?</strong> Email your Woodinville booster team at{' '}
-          <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a> — a real local parent will reply.
-          Pickup-only; we don’t ship or deliver. Checks payable to “WHS Music Boosters”.
+      </div>
+    </section>
+  );
+}
+
+export function Pickup() {
+  return (
+    <section id="pickup" style={{ paddingTop: 0 }}>
+      <div className="wrap">
+        <div className="sec-head">
+          <Reveal><p className="sec-index">04 — Pickup &amp; payment</p></Reveal>
+          <Reveal><h2>Simple as a Saturday morning.</h2></Reveal>
+          <Reveal>
+            <p>
+              This is a neighborhood fundraiser, not a warehouse store. You order online, pay by
+              PayPal QR or mailed cash, and collect your greenery at the high school. {SITE.paymentPolicy}
+            </p>
+          </Reveal>
         </div>
+        <div className="steps">
+          <Reveal>
+            <div className="step">
+              <b className="num">No. 1</b>
+              <h3>Reserve your greenery</h3>
+              <p>Browse the collection, add to your bag and check out online — no account needed. You&apos;ll receive a request number on the spot.</p>
+            </div>
+          </Reveal>
+          <Reveal delay={100}>
+            <div className="step">
+              <b className="num">No. 2</b>
+              <h3>Pay your way</h3>
+              <p>Scan our official PayPal QR at checkout, or mail cash per the instructions in your confirmation email. Checks payable to “WHS Music Boosters”.</p>
+            </div>
+          </Reveal>
+          <Reveal delay={200}>
+            <div className="step">
+              <b className="num">No. 3</b>
+              <h3>Collect Nov 21</h3>
+              <p><strong>{SITE.pickupLabel}.</strong> {SITE.pickupTimeNote} Order deadline: <strong>{SITE.orderDeadlineLabel}</strong>.</p>
+            </div>
+          </Reveal>
+        </div>
+        <Reveal>
+          <div className="notice" style={{ marginTop: 34 }}>
+            Questions? Write to a real booster parent at <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>. Pickup only — we don&apos;t ship or deliver.
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -106,20 +191,37 @@ export function OrderingInfo() {
 export function SiteFooter() {
   return (
     <footer className="footer">
-      <div className="wrap" style={{ display: 'grid', gap: 20 }}>
-        <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', justifyContent: 'space-between' }}>
+      <div className="wrap">
+        <Reveal>
+          <p className="footer-giant">Thank you,<br /><em>Woodinville.</em></p>
+        </Reveal>
+        <div className="footer-grid">
           <div>
-            <strong style={{ color: '#fff', fontFamily: 'var(--serif)', fontSize: 18 }}>WHS Music Boosters</strong>
-            <p style={{ margin: '6px 0', fontSize: 14 }}>Supporting Woodinville High School’s music students — our neighbors, our kids, our pride.</p>
-            <p style={{ margin: 0, fontSize: 14 }}>Contact: <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a></p>
+            <h4>The fundraiser</h4>
+            <p style={{ margin: 0 }}>WHS Music Boosters 2026 Wreath Fundraiser — fresh noble fir greenery supporting Woodinville High School&apos;s music students.</p>
           </div>
-          <div style={{ fontSize: 14 }}>
-            <a href="/#shop">Shop Wreaths</a> • <a href="/#mission">Our Mission</a> • <a href="/#ordering">Ordering Info</a> • <a href="/checkout">Checkout</a>
+          <div>
+            <h4>Visit</h4>
+            <p style={{ margin: 0 }}>
+              <a href="/#collection">The collection</a><br />
+              <a href="/#story">Our story</a><br />
+              <a href="/#pickup">Pickup &amp; payment</a><br />
+              <a href="/checkout">Checkout</a>
+            </p>
+          </div>
+          <div>
+            <h4>Contact</h4>
+            <p style={{ margin: 0 }}>
+              <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a><br />
+              Pickup {SITE.pickupLabel}<br />
+              Order by {SITE.orderDeadlineLabel}
+            </p>
           </div>
         </div>
-        <p style={{ fontSize: 13, margin: 0 }}>
-          Thank you, Woodinville, for keeping the music playing. Pickup {SITE.pickupLabel} • Order by {SITE.orderDeadlineLabel}.
-        </p>
+        <div className="footer-fine">
+          <span>Representative photography via Unsplash — actual handcrafted pieces vary naturally.</span>
+          <span>WHS Music Boosters · Woodinville, WA</span>
+        </div>
       </div>
     </footer>
   );

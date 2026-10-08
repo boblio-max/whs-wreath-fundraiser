@@ -4,33 +4,59 @@ import { useState } from 'react';
 import type { Product } from '@/lib/products';
 import { money } from '@/lib/products';
 import { useCart } from '@/lib/cart';
+import { Arrow, Reveal } from './Reveal';
 
-export function ProductCard({ product, onDetails }: { product: Product; onDetails: (p: Product) => void }) {
+export function ProductRow({
+  product,
+  index,
+  onDetails
+}: {
+  product: Product;
+  index: number;
+  onDetails: (p: Product) => void;
+}) {
   const { add } = useCart();
   const [added, setAdded] = useState(false);
+  const num = String(index + 1).padStart(2, '0');
   return (
-    <article className="card product-card">
-      <img src={product.image} alt={`${product.name} — festive illustration (representative, not the actual handcrafted wreath)`} loading="lazy" />
-      <div className="product-body">
-        <h3 style={{ fontSize: 19 }}>{product.name}</h3>
-        <div className="price">{money(product.price)}</div>
-        <p style={{ fontSize: 14, color: 'var(--muted)', margin: 0 }}>{product.description}</p>
-        <p className="photo-note">🎄 Representative illustration — your handcrafted noble fir wreath will vary naturally. Real photos coming soon.</p>
-        <div style={{ display: 'flex', gap: 8, marginTop: 'auto', flexWrap: 'wrap' }}>
-          <button className="btn btn-outline" style={{ padding: '10px 16px', fontSize: 14 }} onClick={() => onDetails(product)}>
-            View Details
-          </button>
-          <button
-            className="btn btn-pine"
-            style={{ padding: '10px 16px', fontSize: 14 }}
-            onClick={() => { add(product.id, 1); setAdded(true); setTimeout(() => setAdded(false), 1500); }}
-            aria-live="polite"
-          >
-            {added ? '✓ Added!' : 'Add to Cart'}
-          </button>
+    <Reveal>
+      <article className="prow">
+        <div className="pnum" aria-hidden="true">{num}</div>
+        <button
+          className="pimg"
+          onClick={() => onDetails(product)}
+          aria-label={`View details for ${product.name}`}
+          style={{ border: 'none', padding: 0, cursor: 'pointer', background: 'none' }}
+        >
+          <img src={product.image} alt={product.alt} loading="lazy" />
+        </button>
+        <div className="pinfo">
+          <p className="psize">{product.size}</p>
+          <h3>
+            <button onClick={() => onDetails(product)}>{product.name.replace(/ — .*$/, '')}</button>
+          </h3>
+          <p className="pdesc">{product.description}</p>
+          <p className="pcap">Representative photo — each piece is handcrafted fresh and varies naturally.</p>
         </div>
-      </div>
-    </article>
+        <div className="pbuy">
+          <div className="price">{money(product.price)}</div>
+          <div className="pactions">
+            <button className="mini-btn" onClick={() => onDetails(product)}>Details</button>
+            <button
+              className="mini-btn solid"
+              aria-live="polite"
+              onClick={() => {
+                add(product.id, 1);
+                setAdded(true);
+                setTimeout(() => setAdded(false), 1600);
+              }}
+            >
+              {added ? 'Added ✓' : 'Add to bag'}
+            </button>
+          </div>
+        </div>
+      </article>
+    </Reveal>
   );
 }
 
@@ -39,27 +65,32 @@ export function ProductModal({ product, onClose }: { product: Product; onClose: 
   const [qty, setQtyLocal] = useState(1);
   return (
     <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal" role="dialog" aria-label={product.name} onClick={(e) => e.stopPropagation()}>
-        <img src={product.image} alt={`${product.name} illustration`} />
+      <div className="modal" role="dialog" aria-modal="true" aria-label={product.name} onClick={(e) => e.stopPropagation()}>
+        <img className="top" src={product.image} alt={product.alt} />
         <div className="modal-body">
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
-            <h2 style={{ margin: 0 }}>{product.name}</h2>
-            <button onClick={onClose} aria-label="Close details" style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer' }}>✕</button>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 14, alignItems: 'flex-start' }}>
+            <div>
+              <p className="psize" style={{ marginBottom: 6 }}>{product.size}</p>
+              <h2 style={{ fontSize: 'clamp(28px,4vw,40px)' }}>{product.name}</h2>
+            </div>
+            <button onClick={onClose} aria-label="Close details" style={{ background: 'none', border: '1px solid var(--hair)', borderRadius: 2, width: 40, height: 40, cursor: 'pointer', fontSize: 17 }}>✕</button>
           </div>
-          <div className="price">{money(product.price)} <span style={{ fontSize: 14, color: 'var(--muted)', fontFamily: 'var(--sans)' }}>• {product.size}</span></div>
-          <p>{product.description}</p>
-          <ul>
-            {product.details.map((d) => <li key={d}>{d}</li>)}
+          <div className="price" style={{ margin: '6px 0 12px' }}>{money(product.price)}</div>
+          <p style={{ color: 'var(--muted)' }}>{product.description}</p>
+          <ul style={{ paddingLeft: 20, margin: '0 0 8px', color: 'var(--muted)', fontSize: 15 }}>
+            {product.details.map((d) => (
+              <li key={d}>{d}</li>
+            ))}
           </ul>
-          <p className="photo-note">Handcrafted with fresh noble fir, incense cedar & juniper, finished with natural pine cones. Bows sold separately.</p>
-          <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginTop: 12 }}>
+          <p className="pcap">Handcrafted with fresh noble fir, incense cedar and juniper, finished with natural pine cones. Bows sold separately.</p>
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap', marginTop: 18 }}>
             <div className="qty">
               <button onClick={() => setQtyLocal(Math.max(1, qty - 1))} aria-label="Decrease quantity">−</button>
-              <span>{qty}</span>
+              <span aria-live="polite">{qty}</span>
               <button onClick={() => setQtyLocal(Math.min(25, qty + 1))} aria-label="Increase quantity">+</button>
             </div>
-            <button className="btn btn-gold" onClick={() => { add(product.id, qty); onClose(); }}>
-              Add {qty} to Cart — {money(product.price * qty)}
+            <button className="btn btn-pine" style={{ padding: '15px 24px' }} onClick={() => { add(product.id, qty); onClose(); }}>
+              Add {qty} to bag — {money(product.price * qty)} <Arrow />
             </button>
           </div>
         </div>

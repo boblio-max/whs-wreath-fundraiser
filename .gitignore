@@ -7,3 +7,4 @@ data/orders.json
 *.log
 .DS_Store
 tsconfig.tsbuildinfo
+.vercel

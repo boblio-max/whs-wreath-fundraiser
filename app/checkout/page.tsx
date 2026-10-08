@@ -58,15 +58,15 @@ export default function CheckoutPage() {
   }
 
   return (
-    <>
+    <div className="grain">
       <Navbar />
       <section>
-        <div className="wrap" style={{ display: 'grid', gridTemplateColumns: '1.1fr .9fr', gap: 28 }} id="checkout-grid">
+        <div className="wrap" style={{ display: 'grid', gridTemplateColumns: '1.1fr .9fr', gap: 36 }} id="checkout-grid">
           <div>
-            <p className="eyebrow">Checkout • No account needed</p>
-            <h1>Your wreath request</h1>
+            <p className="sec-index">Checkout — no account needed</p>
+            <h1 className="serif" style={{ fontSize: 'clamp(38px,5vw,60px)' }}>Your wreath request</h1>
             {detailed.length === 0 ? (
-              <div className="notice">Your cart is empty. <a href="/#shop">Browse the wreaths</a> first — our Woodinville students thank you!</div>
+              <div className="notice">Your bag is empty. <a href="/#collection">Browse the collection</a> first — our Woodinville students thank you.</div>
             ) : (
               <form onSubmit={submit} noValidate>
                 {errors.length > 0 && (
@@ -79,8 +79,8 @@ export default function CheckoutPage() {
                 <div className="field"><label htmlFor="email">Email address *</label><input id="email" type="email" value={form.email} onChange={(e) => set('email', e.target.value)} autoComplete="email" required /><small style={{ color: 'var(--muted)' }}>Your confirmation + pickup details go here.</small></div>
                 <div className="field"><label htmlFor="phone">Phone (optional)</label><input id="phone" type="tel" value={form.phone} onChange={(e) => set('phone', e.target.value)} autoComplete="tel" /></div>
                 <div className="field"><label htmlFor="notes">Notes (optional)</label><textarea id="notes" rows={3} value={form.notes} onChange={(e) => set('notes', e.target.value)} placeholder="e.g. neighbor pickup, ribbon preference…" /></div>
-                <fieldset style={{ border: '1px solid var(--line)', borderRadius: 12, padding: 16, margin: '0 0 16px' }}>
-                  <legend style={{ fontWeight: 800, padding: '0 8px' }}>Payment method *</legend>
+                <fieldset style={{ border: '1px solid var(--hair)', borderRadius: 2, padding: 20, margin: '0 0 18px' }}>
+                  <legend style={{ fontWeight: 700, padding: '0 8px', fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase' }}>Payment method *</legend>
                   <label style={{ display: 'block', marginBottom: 10 }}>
                     <input type="radio" name="pay" checked={form.paymentMethod === 'paypal'} onChange={() => set('paymentMethod', 'paypal')} /> <strong>Pay with PayPal</strong> — scan our official QR code
                   </label>
@@ -90,8 +90,8 @@ export default function CheckoutPage() {
                   {form.paymentMethod === 'paypal' ? (
                     <div className="notice" style={{ marginTop: 12 }}>
                       <p style={{ margin: '0 0 8px' }}>After submitting, you’ll see our official PayPal QR. Scan it with your phone, pay <strong>{money(total)}</strong>, and include your request number in the note if possible.</p>
-                      <img src={SITE.paypal.qrImage} alt="WHS Music Boosters official PayPal QR code (setup placeholder until official scan is installed)" width={180} height={180} style={{ borderRadius: 12, border: '1px solid var(--line)', background: '#fff' }} />
-                      {!SITE.paypal.configured && <p style={{ fontSize: 13 }}>⚠️ Organizer setup: replace <code>public/paypal-qr.svg</code> with the official QR scan before emailing this link.</p>}
+                      <img src={SITE.paypal.qrImage} alt="WHS Music Boosters official PayPal QR code (setup placeholder until official scan is installed)" width={180} height={180} style={{ borderRadius: 2, border: '1px solid var(--hair)', background: '#fff' }} />
+                      {!SITE.paypal.configured && <p style={{ fontSize: 13 }}>Organizer setup: replace <code>public/paypal-qr.svg</code> with the official QR scan before emailing this link.</p>}
                       <label style={{ display: 'block', marginTop: 10 }}>
                         <input type="checkbox" checked={!!form.paid} onChange={(e) => set('paid', e.target.checked)} /> I’ve completed the PayPal payment <span style={{ color: 'var(--muted)' }}>(recorded as “Payment Reported” — boosters verify before marking received)</span>
                       </label>
@@ -109,15 +109,18 @@ export default function CheckoutPage() {
               </form>
             )}
           </div>
-          <aside className="card" style={{ padding: 22, height: 'fit-content' }}>
-            <h2 style={{ marginTop: 0 }}>Order summary</h2>
+          <aside style={{ borderTop: '2px solid var(--ink)', paddingTop: 20, height: 'fit-content' }}>
+            <h2 className="serif" style={{ marginTop: 0, fontSize: 30 }}>Order summary</h2>
             {detailed.map((l) => (
-              <div key={l.id} style={{ display: 'flex', justifyContent: 'space-between', gap: 10, padding: '8px 0', borderBottom: '1px solid var(--line)', fontSize: 14 }}>
+              <div key={l.id} style={{ display: 'flex', justifyContent: 'space-between', gap: 10, padding: '10px 0', borderBottom: '1px solid var(--hair)', fontSize: 14.5 }}>
                 <span>{l.p.name} × {l.qty}</span>
                 <strong>{money(l.p.price * l.qty)}</strong>
               </div>
             ))}
-            <p style={{ textAlign: 'right', fontSize: 18 }}><strong>Total due: {money(total)}</strong></p>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 14 }}>
+              <span style={{ fontSize: 12, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 700 }}>Total due</span>
+              <span className="serif" style={{ fontSize: 34, fontWeight: 600 }}>{money(total)}</span>
+            </div>
             <p style={{ fontSize: 13, color: 'var(--muted)' }}>Pickup: {SITE.pickupLabel}. Deadline {SITE.orderDeadlineLabel}. {SITE.paymentPolicy}</p>
             {detailed.map((l) => (
               <div key={l.id} className="qty" style={{ marginBottom: 6 }}>
@@ -131,6 +134,6 @@ export default function CheckoutPage() {
       </section>
       <SiteFooter />
       <style>{`@media (max-width:900px){#checkout-grid{grid-template-columns:1fr !important}}`}</style>
-    </>
+    </div>
   );
 }

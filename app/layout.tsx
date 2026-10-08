@@ -1,30 +1,50 @@
 import type { Metadata } from 'next';
+import { Fraunces, Inter } from 'next/font/google';
 import './globals.css';
 import { CartProvider } from '@/lib/cart';
+
+const display = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-display',
+  style: ['normal', 'italic'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap'
+});
+
+const body = Inter({
+  subsets: ['latin'],
+  variable: '--font-body',
+  weight: ['400', '500', '600', '700'],
+  display: 'swap'
+});
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
 export const metadata: Metadata = {
-  title: 'WHS Music Boosters 2026 Wreath Fundraiser | Woodinville High School',
+  title: 'Fresh Holiday Wreaths — WHS Music Boosters | Woodinville High School',
   description:
-    'Support Woodinville High School musicians! Order fresh handcrafted noble fir wreaths, swags & bows. Pickup Nov 21 in the WHS upper lot. Every order helps our local music students.',
+    'Fresh handcrafted noble fir wreaths, swags and bows from Woodinville High School Music Boosters. Order by October 30, pickup November 21. Supporting local student musicians.',
   metadataBase: new URL(siteUrl),
   openGraph: {
-    title: 'WHS Music Boosters 2026 Wreath Fundraiser',
+    title: 'Fresh Holiday Wreaths — WHS Music Boosters',
     description:
-      'Fresh noble fir wreaths from your Woodinville High School neighbors — supporting WHS music students. Order by Oct 30, pickup Nov 21.',
+      'Handcrafted noble fir wreaths from your Woodinville High School neighbors. Order by Oct 30, pickup Nov 21 at WHS.',
     url: siteUrl,
     siteName: 'WHS Music Boosters Wreath Fundraiser',
     type: 'website',
-    images: [{ url: '/og-image.svg', width: 1200, height: 630, alt: 'WHS Music Boosters wreath fundraiser' }]
+    images: [{ url: '/photos/hero.jpg', width: 1600, height: 1067, alt: 'Fresh evergreen wreath on a wooden door' }]
   },
-  twitter: { card: 'summary_large_image', title: 'WHS Music Boosters 2026 Wreath Fundraiser', description: 'Fresh wreaths, local students, happy holidays. Woodinville HS — order by Oct 30.' },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Fresh Holiday Wreaths — WHS Music Boosters',
+    description: 'Supporting Woodinville High School musicians, one front door at a time.'
+  },
   icons: { icon: '/favicon.svg' }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body>
         <CartProvider>{children}</CartProvider>
       </body>

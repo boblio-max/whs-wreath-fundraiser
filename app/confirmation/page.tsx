@@ -31,17 +31,17 @@ function Body() {
 
   if (!order)
     return (
-      <section><div className="wrap"><h1>Confirmation</h1><div className="notice">No recent request found on this device. <a href="/#shop">Browse the wreaths</a> or check your email for your request number.</div></div></section>
+      <section><div className="wrap"><h1>Confirmation</h1><div className="notice">No recent request found on this device. <a href="/#collection">Browse the wreaths</a> or check your email for your request number.</div></div></section>
     );
 
   const mailto = `mailto:${SITE.organizerEmail}?subject=${encodeURIComponent(`Wreath request ${order.requestNumber} — ${order.customer.name}`)}&body=${encodeURIComponent(`Hi boosters! I just submitted request ${order.requestNumber} for ${money(order.total)}. My email is ${order.customer.email}. Thank you!`)}`;
 
   return (
     <section>
-      <div className="wrap" style={{ maxWidth: 720 }}>
-        <p className="eyebrow">Request received • Thank you, neighbor!</p>
-        <h1>Thank you, {order.customer.name.split(' ')[0]}! 🎄</h1>
-        <div className="card" style={{ padding: 26 }}>
+      <div className="wrap" style={{ maxWidth: 760 }}>
+        <p className="sec-index">Request received — thank you, neighbor</p>
+        <h1 className="serif" style={{ fontSize: 'clamp(38px,5vw,60px)' }}>Thank you, {order.customer.name.split(' ')[0]}.</h1>
+        <div style={{ borderTop: '2px solid var(--ink)', paddingTop: 22 }}>
           <p>Your wreath request <strong>{order.requestNumber}</strong> was received on {new Date(order.createdAt).toLocaleString()}. A booster volunteer will follow up at <strong>{order.customer.email}</strong>.</p>
           <table className="summary">
             <tbody>
@@ -52,7 +52,7 @@ function Body() {
           {order.paymentMethod === 'paypal' ? (
             <div className="notice" style={{ marginTop: 16 }}>
               <strong>Pay with PayPal:</strong> scan the code below for <strong>{money(order.total)}</strong> and include <strong>{order.requestNumber}</strong> in the payment note if possible.
-              <div><img src={SITE.paypal.qrImage} alt="Official PayPal QR code" width={220} height={220} style={{ borderRadius: 12, background: '#fff', border: '1px solid var(--line)', marginTop: 10 }} /></div>
+              <div><img src={SITE.paypal.qrImage} alt="Official PayPal QR code" width={220} height={220} style={{ borderRadius: 2, background: '#fff', border: '1px solid var(--hair)', marginTop: 10 }} /></div>
               <p style={{ fontSize: 13 }}>Payment status: <strong>{order.paymentStatus === 'reported' ? 'Payment Reported (awaiting booster verification)' : 'Payment Awaited'}</strong> — showing this code does not mark you paid; a booster verifies every payment.</p>
               <p><a href={SITE.paypal.link || '#'}>{SITE.paypal.link ? 'Open PayPal link' : 'PayPal link — added by organizers before launch'}</a> • <a href={SITE.paypal.qrImage} target="_blank" rel="noreferrer">Enlarge QR for scanning</a></p>
             </div>
@@ -61,9 +61,9 @@ function Body() {
           )}
           <p><strong>Pickup:</strong> {SITE.pickupLabel}. {SITE.pickupTimeNote}</p>
           {order.emailStatus.organizer === 'sent' || order.emailStatus.customer === 'sent' ? (
-            <p>✉️ Confirmation emails were sent. If yours hasn’t arrived, check spam or email <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>.</p>
+            <p>Confirmation emails were sent. If yours hasn’t arrived, check spam or email <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>.</p>
           ) : (
-            <p>✉️ Email service isn’t configured yet, so no automatic emails went out — but your request <strong>is saved</strong>. Please tap below to notify the boosters:</p>
+            <p>Email service isn’t configured yet, so no automatic emails went out — but your request <strong>is saved</strong>. Please use the button below to notify the boosters:</p>
           )}
           {(order.emailStatus.organizer !== 'sent') && (
             <p><a className="btn btn-pine" href={mailto}>Email the boosters about {order.requestNumber}</a></p>
@@ -77,10 +77,11 @@ function Body() {
 
 export default function ConfirmationPage() {
   return (
-    <>
+    <div className="grain">
       <Navbar />
       <Suspense><Body /></Suspense>
       <SiteFooter />
-    </>
+    </div>
   );
 }
+

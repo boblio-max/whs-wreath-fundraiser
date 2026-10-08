@@ -37,7 +37,7 @@ function Body() {
 
   return (
     <section><div className="wrap">
-      <p className="eyebrow">Organizers only • WHS Music Boosters</p>
+      <p className="sec-index">Organizers only • WHS Music Boosters</p>
       <h1>Order dashboard</h1>
       {!token && <div className="notice">Open this page with your organizer token: <code>/admin?token=YOUR_TOKEN</code> (set <code>ADMIN_TOKEN</code> in Vercel). No token, no customer data — by design.</div>}
       {err && <div className="error" role="alert">{err}</div>}
@@ -49,7 +49,7 @@ function Body() {
           </div>
           {filtered.length === 0 && <div className="notice">No requests yet — share the storefront link by email and they’ll appear here.</div>}
           {filtered.map((o) => (
-            <div key={o.requestNumber} className="card" style={{ padding: 18, marginBottom: 12 }}>
+            <div key={o.requestNumber} style={{ borderTop: '2px solid var(--ink)', padding: '18px 0', marginBottom: 6 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
                 <strong>{o.requestNumber}</strong>
                 <span style={{ fontSize: 13 }}>{new Date(o.createdAt).toLocaleString()}</span>
@@ -72,3 +72,4 @@ function Body() {
 export default function AdminPage() {
   return (<><Navbar /><Suspense><Body /></Suspense></>);
 }
+

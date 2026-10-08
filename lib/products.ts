@@ -12,10 +12,11 @@ export interface Product {
   description: string;
   details: string[];
   image: string;
+  alt: string;
   category: 'wreath' | 'swag' | 'decoration' | 'addon';
   available: boolean;
   featured?: boolean;
-  photoStatus: 'placeholder-illustration' | 'real';
+  photoStatus: 'representative' | 'real';
 }
 
 export const PRODUCTS: Product[] = [
@@ -33,11 +34,12 @@ export const PRODUCTS: Product[] = [
       '20″ — great for doors and windows',
       'Red velvet bow sold separately'
     ],
-    image: '/products/wreath-20.svg',
+    image: '/photos/wreath-20.jpg',
+    alt: 'Fresh evergreen wreath on a neighborhood front door (representative photo)',
     category: 'wreath',
     available: true,
     featured: true,
-    photoStatus: 'placeholder-illustration'
+    photoStatus: 'representative'
   },
   {
     id: 'wreath-24',
@@ -53,11 +55,12 @@ export const PRODUCTS: Product[] = [
       '24″ — extra-full holiday presence',
       'Red velvet bow sold separately'
     ],
-    image: '/products/wreath-24.svg',
+    image: '/photos/wreath-24.jpg',
+    alt: 'Lush handcrafted evergreen wreath close-up (representative photo)',
     category: 'wreath',
     available: true,
     featured: true,
-    photoStatus: 'placeholder-illustration'
+    photoStatus: 'representative'
   },
   {
     id: 'swag-30',
@@ -73,11 +76,12 @@ export const PRODUCTS: Product[] = [
       '30″ hanging swag',
       'Red velvet bow sold separately'
     ],
-    image: '/products/swag-30.svg',
+    image: '/photos/swag-30.jpg',
+    alt: 'Fresh evergreen swag with pine cones on a mantel (representative photo)',
     category: 'swag',
     available: true,
     featured: true,
-    photoStatus: 'placeholder-illustration'
+    photoStatus: 'representative'
   },
   {
     id: 'cane-36',
@@ -93,10 +97,11 @@ export const PRODUCTS: Product[] = [
       '36″ tall',
       'Red velvet bow sold separately'
     ],
-    image: '/products/cane-36.svg',
+    image: '/photos/cane-36.jpg',
+    alt: 'Festive evergreen garland with holiday greenery (representative photo)',
     category: 'swag',
     available: true,
-    photoStatus: 'placeholder-illustration'
+    photoStatus: 'representative'
   },
   {
     id: 'bow-red',
@@ -107,10 +112,11 @@ export const PRODUCTS: Product[] = [
     description:
       'The finishing touch — a classic red velvet bow that clips onto any wreath, swag, or candy cane.',
     details: ['Rich red velvet', 'Fits any wreath or swag', 'Adds a classic holiday pop'],
-    image: '/products/bow.svg',
+    image: '/photos/bow.jpg',
+    alt: 'Red and gold holiday ribbon detail (representative photo)',
     category: 'addon',
     available: true,
-    photoStatus: 'placeholder-illustration'
+    photoStatus: 'representative'
   }
 ];
 
@@ -130,3 +136,5 @@ export function totalsFor(items: { id: string; qty: number }[]) {
 
 export const money = (n: number) =>
   n.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
+
