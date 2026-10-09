@@ -307,7 +307,7 @@ export function Pickup() {
         </div>
         <Reveal>
           <div className="notice" style={{ marginTop: 34 }}>
-            Questions? Write to a real booster parent at <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>. Pickup only — we don&apos;t ship or deliver.
+            Questions? Write to a real booster volunteer at <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>. Pickup only — we don&apos;t ship or deliver.
           </div>
         </Reveal>
       </div>
