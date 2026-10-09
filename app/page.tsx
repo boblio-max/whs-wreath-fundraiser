@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import Navbar from '@/components/Navbar';
-import { Gallery, Hero, Marquee, Pickup, QuoteBand, SiteFooter, Story } from '@/components/Sections';
+import { Gallery, Hero, Marquee, Pickup, QuoteBand, SiteFooter, Story, FinalCta } from '@/components/Sections';
 import { ProductModal, ProductRow } from '@/components/Product';
-import { Arrow, Reveal } from '@/components/Reveal';
+import { Reveal } from '@/components/Reveal';
 import { PRODUCTS, type Product } from '@/lib/products';
 
 export default function HomePage() {
@@ -57,16 +57,7 @@ export default function HomePage() {
         </div>
       </section>
       <Pickup />
-      <section style={{ paddingTop: 0 }}>
-        <div className="wrap" style={{ textAlign: 'center' }}>
-          <Reveal>
-            <h2 className="serif" style={{ fontSize: 'clamp(34px,5vw,60px)' }}>Your door called.<br />It wants <em style={{ color: 'var(--rust)' }}>a wreath.</em></h2>
-            <p style={{ marginTop: 22 }}>
-              <a href="#collection" className="btn btn-pine">Shop the collection <Arrow /></a>
-            </p>
-          </Reveal>
-        </div>
-      </section>
+      <FinalCta />
       <SiteFooter />
       {selected && <ProductModal product={selected} onClose={() => setSelected(null)} />}
     </div>

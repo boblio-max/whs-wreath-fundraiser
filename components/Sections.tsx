@@ -1,14 +1,48 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
 import { SITE } from '@/lib/site';
-import { Arrow, Reveal } from './Reveal';
+import { Arrow, Reveal, Stat } from './Reveal';
+
+const DEADLINE_ISO = '2026-10-30T23:59:00-07:00';
+
+function daysLeft(): number | null {
+  const ms = new Date(DEADLINE_ISO).getTime() - Date.now();
+  return Math.ceil(ms / 86400000);
+}
 
 export function Hero() {
+  const innerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (innerRef.current && y < window.innerHeight) {
+          innerRef.current.style.transform = `translateY(${y * 0.22}px)`;
+          innerRef.current.style.opacity = `${Math.max(0, 1 - y / (window.innerHeight * 0.85))}`;
+        }
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  const left = daysLeft();
+
   return (
     <header className="hero" id="home">
       <div className="hero-bg">
         <img src="/photos/hero.jpg" alt="Lush fresh evergreen wreath hanging on a wooden front door" fetchPriority="high" />
       </div>
       <div className="hero-scrim" aria-hidden="true" />
-      <div className="wrap hero-inner">
+      <div className="wrap hero-inner" ref={innerRef}>
         <p className="hero-kicker">Woodinville High School — Music Boosters Fundraiser</p>
         <h1>
           Bring home <em>the holidays.</em>
@@ -22,11 +56,15 @@ export function Hero() {
           <a href="#story" className="btn btn-ghost">Why it matters</a>
         </div>
         <dl className="hero-meta">
-          <div><dt>Order by</dt><dd>October 30</dd></div>
+          <div>
+            <dt>Order by</dt>
+            <dd>October 30{left !== null && left > 0 ? ` · ${left} days left` : ''}</dd>
+          </div>
           <div><dt>Pickup</dt><dd>Sat, Nov 21 — WHS upper lot</dd></div>
           <div><dt>Wreaths from</dt><dd>$25</dd></div>
         </dl>
       </div>
+      <div className="scroll-cue" aria-hidden="true">Scroll</div>
     </header>
   );
 }
@@ -82,9 +120,9 @@ export function Story() {
                 <li>Day-to-day music department needs</li>
               </ul>
               <div className="facts">
-                <div><strong>5</strong><span>Fresh offerings</span></div>
-                <div><strong>100%</strong><span>Volunteer-run</span></div>
-                <div><strong>1</strong><span>Pickup morning</span></div>
+                <Stat value={5} label="Fresh offerings" />
+                <Stat value={100} suffix="%" label="Volunteer-run" />
+                <Stat value={1} label="Pickup morning" />
               </div>
             </div>
           </Reveal>
@@ -141,12 +179,74 @@ export function Gallery() {
   );
 }
 
+function Countdown() {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const diff = new Date(DEADLINE_ISO).getTime() - now;
+  if (diff <= 0) {
+    return (
+      <p className="notice" style={{ marginTop: 26 }}>
+        The order window has closed. Missed it? Email <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a> — if greenery remains, a booster will help.
+      </p>
+    );
+  }
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  const cells: [number, string][] = [
+    [d, 'Days'],
+    [h, 'Hours'],
+    [m, 'Minutes'],
+    [s, 'Seconds']
+  ];
+  return (
+    <div>
+      <div className="countdown" role="timer" aria-label="Time left to order">
+        {cells.map(([v, label]) => (
+          <div key={label}>
+            <strong>{String(v).padStart(label === 'Days' ? 1 : 2, '0')}</strong>
+            <span>{label}</span>
+          </div>
+        ))}
+      </div>
+      <p style={{ fontSize: 13, color: 'var(--muted)', margin: '8px 0 0' }}>Left to order for November 21 pickup.</p>
+    </div>
+  );
+}
+
+const FAQS = [
+  {
+    q: 'When and where do I pick up my wreaths?',
+    a: 'Saturday, November 21st in the Woodinville High School upper parking lot. The exact pickup time window is still being confirmed by the boosters — it will be posted here and in your confirmation email before pickup day.'
+  },
+  {
+    q: 'How do I pay?',
+    a: 'Payment is due at time of order. Scan our official PayPal QR code at checkout, or mail cash following the instructions in your confirmation email. Paying by check? Make it payable to “WHS Music Boosters”.'
+  },
+  {
+    q: 'Does my wreath come with a bow?',
+    a: 'Bows are sold separately for $3 — add a red velvet bow to any wreath, swag or candy cane when you order.'
+  },
+  {
+    q: 'What are the wreaths made of?',
+    a: 'Fresh noble fir, incense cedar and juniper, finished with natural pine cones for a classic holiday look — handcrafted by booster volunteers. No two pieces are exactly alike.'
+  },
+  {
+    q: 'When is the order deadline?',
+    a: 'October 30. After that the boosters place the greenery order, so late requests can’t be guaranteed — order early.'
+  }
+];
+
 export function Pickup() {
   return (
     <section id="pickup" style={{ paddingTop: 0 }}>
       <div className="wrap">
         <div className="sec-head">
-          <Reveal><p className="sec-index">04 — Pickup &amp; payment</p></Reveal>
+          <Reveal><p className="sec-index">03 — Pickup &amp; payment</p></Reveal>
           <Reveal><h2>Simple as a Saturday morning.</h2></Reveal>
           <Reveal>
             <p>
@@ -174,7 +274,24 @@ export function Pickup() {
             <div className="step">
               <b className="num">No. 3</b>
               <h3>Collect Nov 21</h3>
-              <p><strong>{SITE.pickupLabel}.</strong> {SITE.pickupTimeNote} Order deadline: <strong>{SITE.orderDeadlineLabel}</strong>.</p>
+              <p><strong>{SITE.pickupLabel}.</strong> Order deadline: <strong>{SITE.orderDeadlineLabel}</strong>.</p>
+              <div className="org-note">
+                <strong>Organizer note</strong>
+                Pickup time window still to be confirmed — check back before Nov 21.
+              </div>
+            </div>
+          </Reveal>
+        </div>
+        <div style={{ marginTop: 40 }}>
+          <Reveal><p className="micro">Good to know</p></Reveal>
+          <Reveal>
+            <div className="faq">
+              {FAQS.map((f) => (
+                <details key={f.q}>
+                  <summary>{f.q}<span className="pm" aria-hidden="true">+</span></summary>
+                  <p className="answer">{f.a}</p>
+                </details>
+              ))}
             </div>
           </Reveal>
         </div>
@@ -182,6 +299,33 @@ export function Pickup() {
           <div className="notice" style={{ marginTop: 34 }}>
             Questions? Write to a real booster parent at <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>. Pickup only — we don&apos;t ship or deliver.
           </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+export function FinalCta() {
+  return (
+    <section style={{ paddingTop: 0 }} aria-label="Order before the deadline">
+      <div className="wrap" style={{ textAlign: 'center', maxWidth: 760 }}>
+        <Reveal>
+          <p className="sec-index" style={{ justifyContent: 'center' }}>Order by October 30</p>
+          <h2 className="serif" style={{ fontSize: 'clamp(38px,5.6vw,66px)' }}>
+            See you <em style={{ color: 'var(--gold)' }}>November 21st.</em>
+          </h2>
+          <p style={{ color: 'var(--muted)', maxWidth: 520, margin: '0 auto' }}>
+            Order this week, collect your greenery in the WHS upper lot — and know exactly
+            which neighborhood kids you helped.
+          </p>
+        </Reveal>
+        <Reveal>
+          <Countdown />
+        </Reveal>
+        <Reveal>
+          <p style={{ marginTop: 26 }}>
+            <a href="#collection" className="btn btn-pine">Shop the collection <Arrow /></a>
+          </p>
         </Reveal>
       </div>
     </section>
@@ -220,7 +364,10 @@ export function SiteFooter() {
         </div>
         <div className="footer-fine">
           <span>Representative photography via Unsplash — actual handcrafted pieces vary naturally.</span>
-          <span>WHS Music Boosters · Woodinville, WA</span>
+          <span style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
+            <span>WHS Music Boosters · Woodinville, WA</span>
+            <button className="to-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Back to top ↑</button>
+          </span>
         </div>
       </div>
     </footer>

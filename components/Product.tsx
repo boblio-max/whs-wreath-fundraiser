@@ -4,7 +4,7 @@ import { useState } from 'react';
 import type { Product } from '@/lib/products';
 import { money } from '@/lib/products';
 import { useCart } from '@/lib/cart';
-import { Arrow, Reveal } from './Reveal';
+import { Arrow, Reveal, notifyToast } from './Reveal';
 
 export function ProductRow({
   product,
@@ -47,6 +47,7 @@ export function ProductRow({
               aria-live="polite"
               onClick={() => {
                 add(product.id, 1);
+                notifyToast(`${product.name.replace(/ — .*$/, '')} added to your bag`);
                 setAdded(true);
                 setTimeout(() => setAdded(false), 1600);
               }}
@@ -89,7 +90,7 @@ export function ProductModal({ product, onClose }: { product: Product; onClose: 
               <span aria-live="polite">{qty}</span>
               <button onClick={() => setQtyLocal(Math.min(25, qty + 1))} aria-label="Increase quantity">+</button>
             </div>
-            <button className="btn btn-pine" style={{ padding: '15px 24px' }} onClick={() => { add(product.id, qty); onClose(); }}>
+            <button className="btn btn-pine" style={{ padding: '15px 24px' }} onClick={() => { add(product.id, qty); notifyToast(`${qty} × ${product.name.replace(/ — .*$/, '')} added to your bag`); onClose(); }}>
               Add {qty} to bag — {money(product.price * qty)} <Arrow />
             </button>
           </div>

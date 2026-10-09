@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useCart } from '@/lib/cart';
 import { SITE } from '@/lib/site';
 import CartDrawer from './CartDrawer';
-import { Bag } from './Reveal';
+import { Bag, ToastHost } from './Reveal';
 
 export default function Navbar() {
   const { count } = useCart();
@@ -30,13 +30,14 @@ export default function Navbar() {
             <Link href="/#story" onClick={() => setOpen(false)}>Our Story</Link>
             <Link href="/#pickup" onClick={() => setOpen(false)}>Pickup</Link>
             <Link href="/#collection" className="shop-link" onClick={() => setOpen(false)}>Shop Wreaths</Link>
-            <button className="bag-btn" onClick={() => setCartOpen(true)} aria-label={`Open cart, ${count} items`}>
-              <Bag /> Bag{count > 0 && <span className="bag-count">{count}</span>}
+            <button className="bag-btn" onClick={() => setCartOpen(true)} aria-label={`Open bag, ${count} items`}>
+              <Bag /> Bag{count > 0 && <span className="bag-count" key={count}>{count}</span>}
             </button>
           </div>
         </div>
       </nav>
       {cartOpen && <CartDrawer onClose={() => setCartOpen(false)} />}
+      <ToastHost />
     </>
   );
 }
