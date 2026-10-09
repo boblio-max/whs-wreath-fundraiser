@@ -98,7 +98,17 @@ export function Story() {
         <div className="story-grid">
           <Reveal>
             <div className="story-photo">
-              <img src="/photos/story.jpg" alt="Student violinists performing together" loading="lazy" />
+              <div className="photo-soon" role="img" aria-label="Student orchestra photo coming soon">
+                <svg width="54" height="54" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M9 18V6l10-2v11.5" stroke="#62d94f" strokeWidth="1.6" strokeLinejoin="round" />
+                  <circle cx="6.5" cy="18" r="2.5" stroke="#62d94f" strokeWidth="1.6" />
+                  <circle cx="16.5" cy="15.5" r="2.5" stroke="#62d94f" strokeWidth="1.6" />
+                </svg>
+                <p className="serif" style={{ fontSize: 26, margin: 0, color: '#fff' }}>Our musicians,<br />on stage soon.</p>
+                <p style={{ fontSize: 12, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'rgba(255,255,255,.6)', margin: 0 }}>
+                  Student photo arriving from the boosters
+                </p>
+              </div>
             </div>
           </Reveal>
           <Reveal delay={120}>
