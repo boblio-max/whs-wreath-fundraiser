@@ -24,10 +24,11 @@ export const SITE = {
     'Noble fir wreaths and swags are handcrafted with fresh noble fir, incense cedar, and juniper, finished with natural pine cones for a classic holiday look. Bows sold separately.',
 
   paypal: {
-    // Replace public/paypal-qr.svg with the official QR scan file (same name).
-    qrImage: '/paypal-qr.svg',
+    // Official QR cropped + enlarged from the booster flyer (public/paypal-qr.png).
+    // If phones struggle to scan it, replace with a sharp close-up scan (same filename).
+    qrImage: '/paypal-qr.png',
     link: process.env.NEXT_PUBLIC_PAYPAL_LINK || '',
-    configured: false // flip to true once the official QR file is installed
+    configured: true
   },
   cashByMail: {
     // [NEEDS INFO] — cash-by-mail is OFF until the organizer supplies these.

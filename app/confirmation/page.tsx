@@ -54,7 +54,7 @@ function Body() {
               <strong>Pay with PayPal:</strong> scan the code below for <strong>{money(order.total)}</strong> and include <strong>{order.requestNumber}</strong> in the payment note if possible.
               <div><img src={SITE.paypal.qrImage} alt="Official PayPal QR code" width={220} height={220} style={{ borderRadius: 2, background: '#fff', border: '1px solid var(--hair)', marginTop: 10 }} /></div>
               <p style={{ fontSize: 13 }}>Payment status: <strong>{order.paymentStatus === 'reported' ? 'Payment Reported (awaiting booster verification)' : 'Payment Awaited'}</strong> — showing this code does not mark you paid; a booster verifies every payment.</p>
-              <p><a href={SITE.paypal.link || '#'}>{SITE.paypal.link ? 'Open PayPal link' : 'PayPal link — added by organizers before launch'}</a> • <a href={SITE.paypal.qrImage} target="_blank" rel="noreferrer">Enlarge QR for scanning</a></p>
+              <p>{SITE.paypal.link && (<><a href={SITE.paypal.link}>Open PayPal link</a> • </>)}<a href={SITE.paypal.qrImage} target="_blank" rel="noreferrer">Enlarge QR for scanning</a></p>
             </div>
           ) : (
             <div className="notice" style={{ marginTop: 16 }}><strong>Cash by mail:</strong> {SITE.cashByMail.instructions} Amount due: <strong>{money(order.total)}</strong>. Include <strong>{order.requestNumber}</strong> with your payment.</div>
