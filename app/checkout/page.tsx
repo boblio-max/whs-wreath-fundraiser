@@ -90,7 +90,7 @@ export default function CheckoutPage() {
                   {form.paymentMethod === 'paypal' ? (
                     <div className="notice" style={{ marginTop: 12 }}>
                       <p style={{ margin: '0 0 8px' }}>After submitting, you’ll see our official PayPal QR. Scan it with your phone, pay <strong>{money(total)}</strong>, and include your request number in the note if possible.</p>
-                      <img src={SITE.paypal.qrImage} alt="WHS Music Boosters official PayPal QR code (setup placeholder until official scan is installed)" width={180} height={180} style={{ borderRadius: 2, border: '1px solid var(--hair)', background: '#fff' }} />
+                      <img src={SITE.paypal.qrImage} alt="WHS Music Boosters official PayPal QR code — scan to pay" width={180} height={180} style={{ borderRadius: 2, border: '1px solid var(--hair)', background: '#fff' }} />
                       {!SITE.paypal.configured && <p style={{ fontSize: 13 }}>Organizer setup: replace <code>public/paypal-qr.svg</code> with the official QR scan before emailing this link.</p>}
                       <label style={{ display: 'block', marginTop: 10 }}>
                         <input type="checkbox" checked={!!form.paid} onChange={(e) => set('paid', e.target.checked)} /> I’ve completed the PayPal payment <span style={{ color: 'var(--muted)' }}>(recorded as “Payment Reported” — boosters verify before marking received)</span>
