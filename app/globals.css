@@ -318,3 +318,28 @@ table.summary td { padding: 11px 0; border-bottom: 1px solid var(--hair); font-s
   .hero-bg img, .marquee-track, .scroll-cue::before { animation: none; }
   .drawer, .modal, .toast, .bag-count { animation: none; }
 }
+
+/* organizer payment dashboard */
+.dash-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 26px 0; }
+.dash-card { border: 1px solid var(--hair); border-top: 3px solid var(--ink); border-radius: 2px; padding: 18px; background: #fff; }
+.dash-card.good { border-top-color: var(--kelly); }
+.dash-card.warn { border-top-color: #c77b1f; }
+.dash-card span { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); display: block; }
+.dash-card strong { font-family: var(--font-display); font-size: 42px; font-weight: 600; display: block; line-height: 1.1; }
+.dash-card em { font-style: normal; font-size: 13px; color: var(--muted); }
+.dash-toolbar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+.dash-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.dash-tabs button { border: 1px solid var(--hair); background: #fff; border-radius: 999px; padding: 9px 16px; font-size: 12.5px; font-weight: 600; cursor: pointer; }
+.dash-tabs button.on { background: var(--pine-900); border-color: var(--pine-900); color: #fff; }
+.dash-search { padding: 10px 14px; border-radius: 2px; border: 1px solid var(--hair); font: inherit; font-size: 14px; min-width: 220px; flex: 1; }
+.dash-row { display: flex; gap: 18px; justify-content: space-between; align-items: flex-start; border-top: 2px solid var(--ink); padding: 20px 0; }
+.dash-main { flex: 1; min-width: 0; }
+.dash-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.pill { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; white-space: nowrap; }
+.p-awaited { background: #eef2ec; color: var(--muted); }
+.p-reported { background: #fdf3e3; color: #8a5a12; }
+.p-received { background: #e4f3e0; color: var(--gold); }
+@media (max-width: 900px) {
+  .dash-cards { grid-template-columns: 1fr 1fr; }
+  .dash-row { flex-direction: column; }
+}

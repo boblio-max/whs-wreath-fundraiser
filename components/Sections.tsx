@@ -307,7 +307,7 @@ export function Pickup() {
         </div>
         <Reveal>
           <div className="notice" style={{ marginTop: 34 }}>
-            Questions? Write to a real booster volunteer at <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>. Pickup only — we don&apos;t ship or deliver.
+            Questions? Write to WHS Music Boosters volunteer Nikhil Mahankali at <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>. Pickup only — we don&apos;t ship or deliver.
           </div>
         </Reveal>
       </div>
@@ -366,6 +366,7 @@ export function SiteFooter() {
           <div>
             <h4>Contact</h4>
             <p style={{ margin: 0 }}>
+              Nikhil Mahankali, WHS Music Boosters volunteer<br />
               <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a><br />
               Pickup {SITE.pickupLabel}<br />
               Order by {SITE.orderDeadlineLabel}

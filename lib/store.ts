@@ -55,6 +55,23 @@ export async function saveOrder(order: Order): Promise<void> {
   }
 }
 
+export async function updateOrder(
+  requestNumber: string,
+  patch: Partial<Pick<Order, 'paymentStatus' | 'fulfillmentStatus'>>
+): Promise<Order | null> {
+  const orders = await readOrders();
+  const order = orders.find((o) => o.requestNumber === requestNumber);
+  if (!order) return null;
+  if (patch.paymentStatus) order.paymentStatus = patch.paymentStatus;
+  if (patch.fulfillmentStatus) order.fulfillmentStatus = patch.fulfillmentStatus;
+  try {
+    await fs.writeFile(filePath(), JSON.stringify(orders, null, 2), 'utf8');
+  } catch {
+    // Ephemeral FS — change applies to this response only.
+  }
+  return order;
+}
+
 export function newRequestNumber(): string {
   const d = new Date();
   const rand = Math.random().toString(36).slice(2, 7).toUpperCase();

@@ -1,4 +1,4 @@
-import { readOrders } from '@/lib/store';
+import { readOrders, updateOrder } from '@/lib/store';
 import { NextResponse } from 'next/server';
 import { productById, totalsFor } from '@/lib/products';
 import { validateCustomer, validateItems } from '@/lib/validation';
@@ -75,4 +75,41 @@ export async function POST(req: Request) {
   try { const { readOrders: r } = await import('@/lib/store'); void r; } catch {}
 
   return NextResponse.json({ ok: true, order }, { status: 201 });
+}
+
+export async function PATCH(req: Request) {
+  const token = process.env.ADMIN_TOKEN;
+  let body: {
+    token?: string;
+    requestNumber?: string;
+    paymentStatus?: string;
+    fulfillmentStatus?: string;
+  };
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid request.' }, { status: 400 });
+  }
+  if (!token || body.token !== token)
+    return NextResponse.json({ error: 'Unauthorized.' }, { status: 401 });
+  if (!body.requestNumber)
+    return NextResponse.json({ error: 'Missing request number.' }, { status: 400 });
+
+  const patch: { paymentStatus?: 'awaited' | 'reported' | 'received'; fulfillmentStatus?: 'pending' | 'confirmed' | 'fulfilled' } = {};
+  if (body.paymentStatus !== undefined) {
+    if (!['awaited', 'reported', 'received'].includes(body.paymentStatus))
+      return NextResponse.json({ error: 'Invalid payment status.' }, { status: 400 });
+    patch.paymentStatus = body.paymentStatus as 'awaited' | 'reported' | 'received';
+  }
+  if (body.fulfillmentStatus !== undefined) {
+    if (!['pending', 'confirmed', 'fulfilled'].includes(body.fulfillmentStatus))
+      return NextResponse.json({ error: 'Invalid fulfillment status.' }, { status: 400 });
+    patch.fulfillmentStatus = body.fulfillmentStatus as 'pending' | 'confirmed' | 'fulfilled';
+  }
+  if (!patch.paymentStatus && !patch.fulfillmentStatus)
+    return NextResponse.json({ error: 'Nothing to update.' }, { status: 400 });
+
+  const order = await updateOrder(body.requestNumber, patch);
+  if (!order) return NextResponse.json({ error: 'Order not found.' }, { status: 404 });
+  return NextResponse.json({ ok: true, order });
 }
